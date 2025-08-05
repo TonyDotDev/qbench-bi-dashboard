@@ -1,12 +1,14 @@
-import { Button } from '@/components/ui';
+import { BrowserRouter } from 'react-router-dom';
+
+import { AppRouter } from '@/routes';
 
 import './App.css';
 
 function App() {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Button>Click me</Button>
-    </div>
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
   );
 }
 

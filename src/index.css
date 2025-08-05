@@ -1,7 +1,11 @@
-@import "tw-animate-css";
-@import "tailwindcss";
+/* CSS Reset/Normalization */
+@import 'modern-normalize';
 
-@custom-variant dark (&:is(.dark *));
+/* Tailwind CSS imports */
+@import 'tw-animate-css';
+@import 'tailwindcss';
+
+@custom-variant dark (&: is(.dark *));
 
 :root {
   --radius: 0.625rem;
@@ -111,10 +115,15 @@
 }
 
 @layer base {
-  /* * {
-    @apply border-border outline-ring/50;
-  } */
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Root element reset - using higher specificity */
+html body #root {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  max-width: 100%;
 }
