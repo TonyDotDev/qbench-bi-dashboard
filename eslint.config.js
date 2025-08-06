@@ -35,7 +35,13 @@ export default tseslint.config([
   },
   {
     files: ['**/*.{ts,tsx}'],
-    ignores: ['tailwind.config.ts', 'vite.config.ts', '.storybook/**/*', 'vitest.shims.d.ts'],
+    ignores: [
+      'tailwind.config.ts',
+      'vite.config.ts',
+      '.storybook/**/*',
+      'vitest.shims.d.ts',
+      'vitest.storybook.config.ts',
+    ],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -97,7 +103,6 @@ export default tseslint.config([
       'react/self-closing-comp': 'error',
       'react/jsx-boolean-value': ['error', 'never'],
       'react/jsx-no-constructed-context-values': 'error',
-      'react/no-unstable-nested-components': 'error',
     },
   },
   {
