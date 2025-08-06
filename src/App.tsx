@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 
+import { DashboardProvider } from '@/context';
 import { AppRouter } from '@/routes';
 
 import './App.css';
@@ -7,7 +8,9 @@ import './App.css';
 function App() {
   return (
     <BrowserRouter>
-      <AppRouter />
+      <DashboardProvider>
+        <AppRouter />
+      </DashboardProvider>
     </BrowserRouter>
   );
 }
