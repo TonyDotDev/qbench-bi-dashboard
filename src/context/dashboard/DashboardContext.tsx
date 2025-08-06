@@ -1,14 +1,18 @@
 import { createContext, useMemo, useState } from 'react';
 import type { DateRange } from 'react-day-picker';
 
+import { getToday } from '@/lib/date';
+
 const DashboardContext = createContext<
   { dateRange: DateRange; setDateRange: (dateRange: DateRange) => void } | undefined
 >(undefined);
 
 export const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
+  const today = getToday();
+
   const [dateRange, setDateRange] = useState<DateRange>({
-    from: undefined,
-    to: undefined,
+    from: today,
+    to: today,
   });
 
   const value = useMemo(() => ({ dateRange, setDateRange }), [dateRange]);
