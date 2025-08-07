@@ -74,7 +74,7 @@ export const LineChart = <T,>({
   };
 
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer className="h-80 w-full md:max-h-40 md:w-full" config={chartConfig}>
       <RCLineChart
         accessibilityLayer
         data={chartData}

@@ -23,12 +23,12 @@ export const DashboardLayout = ({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="flex justify-between items-center px-6 py-4 shadow-2xl border-b border-border">
+      <header className="flex flex-col gap-4 md:gap-0 md:flex-row justify-center md:justify-between items-center px-6 py-4 shadow-2xl border-b border-border">
         <div>
-          <Typography variant="h1" size="2xl">
+          <Typography variant="h1" size="2xl" className="text-center md:text-left">
             {title || 'Dashboard'}
           </Typography>
-          <Typography variant="muted" color="muted" size="sm">
+          <Typography variant="muted" color="muted" size="sm" className="text-center md:text-left">
             {description || 'QBench case study demo dashboard'}
           </Typography>
         </div>
@@ -38,7 +38,7 @@ export const DashboardLayout = ({
           onSelect={handleDateRangeChange}
         />
       </header>
-      <main className="flex-1 p-6 bg-slate-100">{children}</main>
+      <main className="flex-1 p-2 lg:p-6 bg-slate-100">{children}</main>
     </div>
   );
 };
