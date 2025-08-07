@@ -1,391 +1,370 @@
-# BI Dashboard
+# BI Dashboard - Sample Throughput Analytics
 
-A modern React-based business intelligence dashboard built with TypeScript, Vite, and Tailwind CSS.
+A modern React-based business intelligence dashboard for tracking laboratory sample processing throughput with interactive charts and real-time data visualization.
 
-## 🚀 Tech Stack
+## 🚀 How to Run Locally
 
-- **Framework**: React 19 with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS v4
-- **UI Components**: shadcn/ui
-- **Testing**: Vitest + Testing Library
-- **Component Development**: Storybook
-- **Code Quality**: ESLint + Prettier
-- **Git Hooks**: Husky + lint-staged
-
-## 📋 Prerequisites
+### Prerequisites
 
 - **Node.js**: >=18.0.0 (see `.nvmrc`)
-- **npm**: >=9.0.0
+- **npm**: >=9.0.0 (enforced package manager)
 - **Git**: Latest version
 
-## 🛠️ Quick Start
-
-### 1. Clone the Repository
+### Quick Start
 
 ```bash
+# Clone the repository
 git clone <repository-url>
 cd bi-dashboard
-```
 
-### 2. Install Dependencies
-
-```bash
-# Use nvm to switch to the correct Node version
+# Switch to correct Node version
 nvm use
 
-# Install dependencies (npm is enforced)
+# Install dependencies
 npm install
-```
 
-### 3. Start Development Server
-
-```bash
+# Start development server
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) to view the app.
+Open [http://localhost:5173](http://localhost:5173) to view the dashboard.
 
-## 📁 Project Structure
-
-```
-bi-dashboard/
-├── .husky/                 # Git hooks configuration
-├── .storybook/            # Storybook configuration
-├── .vscode/               # VS Code workspace settings
-├── public/                # Static assets
-├── src/
-│   ├── components/        # React components
-│   │   └── ui/           # shadcn/ui components
-│   ├── assets/           # Images, fonts, etc.
-│   ├── App.tsx           # Main application component
-│   ├── main.tsx          # Application entry point
-│   └── index.css         # Global styles
-├── .eslintrc.js          # ESLint configuration
-├── .nvmrc                # Node version specification
-├── .npmrc                # npm configuration
-├── package.json          # Dependencies and scripts
-├── tailwind.config.ts    # Tailwind CSS configuration
-├── tsconfig.json         # TypeScript configuration
-└── vite.config.ts        # Vite configuration
-```
-
-## 🎯 Available Scripts
-
-### Development
+### Available Scripts
 
 ```bash
 npm run dev              # Start development server
 npm run build            # Build for production
 npm run preview          # Preview production build
-```
-
-### Code Quality
-
-```bash
-npm run lint             # Run ESLint
-npm run lint:fix         # Fix ESLint issues automatically
-npm run format           # Format code with Prettier
-npm run type-check       # Run TypeScript type checking
-npm run validate         # Run lint + type-check + tests
-```
-
-### Testing
-
-```bash
-npm run test             # Run tests once
+npm run test             # Run tests
 npm run test:watch       # Run tests in watch mode
-npm run test:coverage    # Run tests with coverage
-npm run test:ui          # Run tests with UI
+npm run storybook        # Start Storybook for component development
+npm run lint             # Run ESLint
+npm run type-check       # Run TypeScript type checking
 ```
 
-### Component Development
+## 🏗️ Architecture & Design System Choices
 
-```bash
-npm run storybook        # Start Storybook
-npm run build-storybook  # Build Storybook for deployment
+### **Frontend Architecture**
+
+**React 19 + TypeScript + Vite**
+
+- **React 19**: Latest features with improved performance and concurrent rendering
+- **TypeScript**: Strict type safety for better developer experience and fewer runtime errors
+- **Vite**: Fast development server and optimized builds with HMR
+
+**Component Architecture**
+
+```
+bi-dashboard/
+├── .husky/                          # Git hooks configuration
+├── .storybook/                      # Storybook configuration
+├── .vscode/                         # VS Code workspace settings
+├── public/                          # Static assets
+├── src/
+│   ├── api/                         # Data layer & API integration
+│   │   ├── index.ts                 # API exports
+│   │   ├── sampleThroughputApi.ts   # API client for sample data
+│   │   ├── sample_throughput_data.json # Mock data
+│   │   └── useSampleThroughput.ts   # React hook for data fetching
+│   │
+│   ├── components/                  # React components
+│   │   ├── cards/                   # Layout & container components
+│   │   │   ├── DashboardCard.tsx    # Main dashboard card wrapper
+│   │   │   ├── constants.ts         # Card configuration constants
+│   │   │   ├── index.ts             # Card exports
+│   │   │   └── variants.ts          # Card styling variants
+│   │   │
+│   │   ├── charts/                  # Data visualization components
+│   │   │   └── LineChart.tsx        # Interactive line chart with tooltips
+│   │   │
+│   │   ├── inputs/                  # Form & input components
+│   │   │   └── DateRangePicker/     # Date selection component
+│   │   │
+│   │   ├── layouts/                 # Layout components
+│   │   │   ├── DashboardLayout.tsx  # Main dashboard layout
+│   │   │   └── index.ts             # Layout exports
+│   │   │
+│   │   ├── Typography/              # Text components
+│   │   │   ├── Typography.tsx       # Typography component
+│   │   │   ├── typographyVariants.ts # Typography styles
+│   │   │   └── index.ts             # Typography exports
+│   │   │
+│   │   └── ui/                      # Reusable UI components (shadcn/ui)
+│   │       ├── button/              # Button component
+│   │       ├── calendar.tsx         # Calendar component
+│   │       ├── card.tsx             # Card component
+│   │       ├── chart.tsx            # Chart container
+│   │       ├── label.tsx            # Label component
+│   │       ├── popover.tsx          # Popover component
+│   │       └── index.ts             # UI exports
+│   │
+│   ├── context/                     # Global state management
+│   │   ├── dashboard/               # Dashboard-specific context
+│   │   │   ├── DashboardContext.tsx # Main dashboard context
+│   │   │   ├── useDashboardContext.ts # Context hook
+│   │   │   └── index.ts             # Context exports
+│   │   └── index.ts                 # Context exports
+│   │
+│   ├── lib/                         # Utilities & helpers
+│   │   ├── auth/                    # Authentication utilities
+│   │   │   └── useMockAuth.ts       # Mock authentication hook
+│   │   ├── date.ts                  # Date formatting utilities
+│   │   └── utils.ts                 # General utilities
+│   │
+│   ├── pages/                       # Page-level components
+│   │   ├── DashboardPage.tsx        # Main dashboard page
+│   │   ├── LoginPage.tsx            # Login page
+│   │   └── UnauthorizedPage.tsx     # Unauthorized access page
+│   │
+│   ├── routes/                      # Routing configuration
+│   │   ├── applyGuardsAndLayouts.tsx # Route guard application
+│   │   ├── AppRouter.tsx            # Main router component
+│   │   ├── layouts.tsx              # Layout wrapper
+│   │   ├── paths.ts                 # Route path constants
+│   │   ├── RouteGuard.tsx           # Route protection component
+│   │   ├── routes.tsx               # Route definitions
+│   │   └── index.ts                 # Route exports
+│   │
+│   ├── test/                        # Test configuration
+│   │   └── setup.ts                 # Test setup file
+│   │
+│   ├── App.css                      # App-specific styles
+│   ├── App.tsx                      # Main application component
+│   ├── index.css                    # Global styles & CSS variables
+│   ├── main.tsx                     # Application entry point
+│   └── vite-env.d.ts                # Vite type definitions
+│
+├── .eslintrc.js                     # ESLint configuration
+├── .nvmrc                           # Node version specification
+├── .npmrc                           # npm configuration
+├── .prettierrc                      # Prettier configuration
+├── components.json                  # shadcn/ui configuration
+├── package.json                     # Dependencies & scripts
+├── tailwind.config.ts               # Tailwind CSS configuration
+├── tsconfig.json                    # TypeScript configuration
+├── tsconfig.app.json                # App-specific TypeScript config
+├── tsconfig.node.json               # Node-specific TypeScript config
+├── vite.config.ts                   # Vite configuration
+└── vitest.shims.d.ts                # Vitest type definitions
 ```
 
-### Maintenance
+### **Design System**
 
-```bash
-npm run clean            # Clean build artifacts
-npm run clean:all        # Clean everything (including node_modules)
-```
+**Tailwind CSS v4 with OKLCH Colors**
 
-## 🧪 Testing
+- **OKLCH Color Space**: Better color perception and accessibility
+- **Design Tokens**: Consistent spacing, typography, and color variables
+- **Responsive Design**: Mobile-first approach with breakpoint system
 
-### Running Tests
+**shadcn/ui Component Library**
 
-```bash
-# Run all tests
-npm run test
+- **Accessible Components**: Built with ARIA standards and keyboard navigation
+- **Customizable**: Themeable through CSS variables
+- **Type-Safe**: Full TypeScript support with proper prop types
 
-# Run tests in watch mode (recommended for development)
-npm run test:watch
+**Chart System**
 
-# Run tests with coverage
-npm run test:coverage
-```
+- **Recharts**: React-native charting library with accessibility features
+- **Custom Tooltips**: Enhanced with detailed information and ARIA labels
+- **Responsive**: Adapts to different screen sizes and orientations
 
-### Writing Tests
+### **Data Architecture**
 
-- Tests are written using **Vitest** and **Testing Library**
-- Test files should be named `*.test.ts` or `*.spec.ts`
-- Place test files next to the components they test
-- Use `screen` queries for better accessibility
-
-### Example Test
+**API Layer**
 
 ```typescript
-import { render, screen } from '@testing-library/react';
-import { Button } from '@/components/ui/button';
-
-test('renders button with correct text', () => {
-  render(<Button>Click me</Button>);
-  expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument();
-});
-```
-
-## 📚 Storybook
-
-### Starting Storybook
-
-```bash
-npm run storybook
-```
-
-Open [http://localhost:6006](http://localhost:6006) to view components.
-
-### Writing Stories
-
-- Create stories for all UI components
-- Use Storybook for component development and testing
-- Document component props and usage examples
-
-## 🎨 Styling
-
-### Tailwind CSS
-
-- Uses Tailwind CSS v4 with OKLCH color space
-- Custom theme variables defined in `src/index.css`
-- Responsive design with mobile-first approach
-
-### shadcn/ui Components
-
-- Pre-built, accessible components
-- Customizable through CSS variables
-- Consistent design system
-
-### Adding New Styles
-
-```css
-/* Use Tailwind utilities */
-.my-component {
-  @apply bg-primary text-white p-4 rounded-lg;
-}
-
-/* Or use CSS custom properties */
-.my-component {
-  background-color: var(--primary);
-  border-radius: var(--radius);
+interface SampleThroughputData {
+  date: string;
+  lab: string;
+  sample_type: string;
+  count: number;
+  status: 'complete' | 'processing' | 'pending' | 'failed';
 }
 ```
 
-## 🔧 Development Workflow
+**State Management**
 
-### 1. Create a Feature Branch
+- **React Context**: For global dashboard state (date ranges, filters)
+- **Custom Hooks**: For data fetching and transformation
+- **Local State**: Component-specific state with useState/useReducer
 
-```bash
-git checkout -b feature/your-feature-name
-```
+### **Testing Strategy**
 
-### 2. Make Changes
+**Vitest + Testing Library**
 
-- Write code following the established patterns
-- Add tests for new functionality
-- Update stories for new components
+- **Unit Tests**: Component behavior and utility functions
+- **Accessibility Tests**: ARIA compliance and keyboard navigation
 
-### 3. Pre-commit Checks
+**Storybook**
 
-The following run automatically on commit:
+- **Component Documentation**: Interactive examples and prop documentation
+- **Visual Testing**: Component variations and edge cases
+- **Design System**: Living documentation of UI components
 
-- **lint-staged**: Format and lint changed files
-- **TypeScript**: Incremental type checking
+## 🔮 What I'd Improve with More Time
 
-### 6. Create Pull Request
+### **Immediate Improvements (1-2 weeks)**
 
-- Ensure all checks pass
-- Add tests for new functionality
-- Update documentation if needed
+1. **Data Visualization Enhancements**
 
-## 🚨 Code Quality
+   - Add more chart types (bar charts, pie charts, heatmaps)
+   - Implement data aggregation and filtering
+   - Add export functionality (CSV, PDF reports)
+   - Real-time data updates with WebSocket integration
 
-### ESLint Rules
+2. **Performance Optimizations**
 
-- **TypeScript**: Strict type checking and best practices
-- **React**: Modern React patterns and performance rules
-- **Accessibility**: jsx-a11y rules for inclusive design
-- **Import Organization**: Consistent import ordering
-- **Testing**: Testing Library and Vitest best practices
+   - Implement virtual scrolling for large datasets
+   - Add data caching with React Query
+   - Optimize bundle size with code splitting
+   - Add service worker for offline functionality
 
-### Prettier
+3. **User Experience**
 
-- Automatic code formatting
-- Consistent code style across the team
-- Integrated with ESLint
+   - Add loading states and skeleton screens
+   - Implement error boundaries and retry mechanisms
+   - Add keyboard shortcuts for power users
+   - Improve mobile responsiveness
 
-### Git Hooks
+4. **Testing**
+   - Playwright with E2E/integration tests.
 
-- **Pre-commit**: Format and lint changed files
+### **Medium-term Enhancements (1-2 months)**
 
-## 🐛 Troubleshooting
+1. **Advanced Analytics**
 
-### Common Issues
+   - Trend analysis and forecasting
+   - Statistical summaries and KPIs
+   - Custom dashboard builder
 
-#### Node Version Issues
+2. **Accessibility & Internationalization**
 
-```bash
-# Ensure you're using the correct Node version
-nvm use
-node --version  # Should be >=18.0.0
-```
+   - Full i18n support with react-intl
+   - Enhanced screen reader support
+   - High contrast mode
 
-#### Package Manager Issues
+3. **Backend Integration**
+   - Real API endpoints with authentication
+   - Database integration (PostgreSQL/MongoDB)
+   - Caching layer (Redis)
+   - API rate limiting and monitoring
 
-```bash
-# This project enforces npm usage
-npm install  # ✅ Works
-yarn install  # ❌ Blocked
-pnpm install  # ❌ Blocked
-```
+## 🤔 Assumptions Made
 
-#### Build Issues
+### **Technical Assumptions**
 
-```bash
-# Clean and reinstall
-npm run clean:all
-npm install
-npm run build
-```
+1. **Data Structure**
 
-#### Test Issues
+   - Sample data follows a consistent format with date, lab, sample_type, count, and status
+   - Status values are limited to: complete, processing, pending, failed
+   - Count values are always positive integers
 
-```bash
-# Clear test cache
-npm run test -- --clearCache
-```
+2. **User Requirements**
 
-### Getting Help
+   - Users need to view sample throughput over time
+   - Detailed information (lab, sample type, status) is important for tooltips
+   - Color-coded status indicators improve data comprehension
 
-1. Check the [Troubleshooting](#troubleshooting) section
-2. Review ESLint and TypeScript error messages
-3. Check the [Tech Stack](#-tech-stack) for documentation links
-4. Ask the team for guidance
+3. **Performance Requirements**
 
-## 📖 Contributing
+   - Initial load time should be under 3 seconds
+   - Chart interactions should be smooth (60fps)
+   - Mobile devices should be supported
 
-### Code Standards
+4. **Accessibility Requirements**
+   - WCAG 2.1 AA compliance
+   - Keyboard navigation support
+   - Screen reader compatibility
+   - Color contrast ratios meet standards
 
-- Follow TypeScript best practices
-- Write tests for new functionality
-- Use semantic commit messages
-- Keep components small and focused
-- Document complex logic
+## 🤖 Use of AI Tools
 
-### Pull Request Process
+### **How AI Assisted in This Project**
 
-1. Create a feature branch from `main`
-2. Make your changes
-3. Add/update tests
-4. Ensure all checks pass
-5. Create a pull request
-6. Request review from team members
+**Development Assistance**
 
-### Commit Message Format
+- **GitHub Copilot**: Used extensively for code completion and boilerplate generation
 
-```
-type(scope): description
+  - React component structure and TypeScript interfaces
+  - Test file generation and assertions
+  - Documentation
 
-feat(button): add loading state to Button component
-fix(auth): resolve login redirect issue
-docs(readme): update installation instructions
-```
+- **ChatGPT (Claude)**: Used for architectural decisions and problem-solving
+  - Chart component design and Recharts implementation
+  - Accessibility improvements and ARIA attributes
+  - Color scheme selection and OKLCH color space
+  - Testing strategies and best practices
 
-## 🔒 Environment Variables
+**Specific AI Contributions**
 
-Create a `.env.local` file for local development:
+1. **LineChart Component**
 
-```bash
-# API Configuration
-VITE_API_URL=http://localhost:3000
-VITE_API_KEY=your-api-key
+   - AI helped design the tooltip structure with proper accessibility
+   - Assisted with Recharts configuration and customization
 
-# Feature Flags
-VITE_ENABLE_ANALYTICS=true
-```
+2. **Accessibility Improvements**
 
-## 📦 Deployment
+   - AI identified missing ARIA attributes and semantic HTML
+   - Suggested proper heading hierarchy and screen reader support
 
-### Build for Production
+3. **Styling and Design**
+   - AI recommended OKLCH color space for better accessibility
 
-```bash
-npm run build
-```
+**Responsible AI Usage**
 
-### Environment-Specific Builds
+- **Code Review**: All AI-generated code was reviewed and modified as needed
+- **Understanding**: Ensured comprehension of all implemented solutions
+- **Customization**: Adapted AI suggestions to fit project requirements
+- **Testing**: Verified AI-generated code with proper tests
+- **Documentation**: Documented AI contributions transparently
 
-```bash
-# Development
-npm run build -- --mode development
+**AI Tools Used**
 
-# Production
-npm run build -- --mode production
-```
+- **GitHub Copilot**: Real-time code completion and suggestions
+- **ChatGPT/Claude**: Problem-solving and architectural guidance
+- **VS Code Extensions**: AI-powered linting and formatting
 
-## 🤝 Team Guidelines
+## 📊 Key Features Implemented
 
-### Communication
+### **Interactive Line Chart**
 
-- Use clear, descriptive commit messages
-- Document breaking changes
-- Keep pull requests focused and small
-- Provide context in code reviews
+- Real-time data visualization with hover tooltips
+- Monthly and daily view options
+- Color-coded status indicators
+- Responsive design for all screen sizes
 
-### Code Review
+### **Enhanced Tooltips**
 
-- Review for functionality, not just style
-- Check for security implications
-- Ensure tests are comprehensive
-- Verify accessibility compliance
+- Detailed information display (lab, sample type, count, status)
+- Accessibility features with ARIA labels
+- Color-coded status badges
+- Semantic HTML structure
 
-### Performance
+### **Dashboard Layout**
 
-- Monitor bundle size
-- Use React DevTools for performance analysis
-- Optimize images and assets
-- Implement code splitting where appropriate
+- Responsive card-based layout
+- Loading states and error handling
+- Date range selection
+- Clean, modern UI design
 
-## 📚 Resources
+### **Data Management**
 
-### Documentation
+- Type-safe API integration
+- Custom React hooks for data fetching
+- Efficient data transformation and aggregation
+- Error handling
 
-- [React Documentation](https://react.dev/)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [Vite Guide](https://vitejs.dev/guide/)
-- [Tailwind CSS](https://tailwindcss.com/docs)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Vitest](https://vitest.dev/)
-- [Testing Library](https://testing-library.com/)
+## 🧪 Testing Coverage
 
-### Tools
+- **Unit Tests**: Component behavior and utility functions
+- **Integration Tests**: API interactions and data flow
+- **Accessibility Tests**: ARIA compliance and keyboard navigation
+- **Visual Tests**: Component rendering and styling
+- **Storybook**: Interactive component documentation
 
-- [VS Code Extensions](.vscode/extensions.json)
-- [ESLint Rules](eslint.config.js)
-- [TypeScript Config](tsconfig.json)
+## 📚 Documentation
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **Component Documentation**: Storybook stories for all UI components
+- **API Documentation**: TypeScript interfaces and JSDoc comments
+- **Architecture Documentation**: Design decisions and patterns
+- **Accessibility Documentation**: WCAG compliance and testing
